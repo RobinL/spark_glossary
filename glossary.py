@@ -1,3 +1,5 @@
+import json
+
 glossary = {}
 
 definition = """
@@ -5,3 +7,6 @@ definition = """
 """
 
 glossary["exchange"] = definition
+
+with open("glossary.json", "w") as f:
+  json.dump(glossary, f)
