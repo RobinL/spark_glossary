@@ -59,7 +59,7 @@ A job is created when you apply an action on an RDD.  There is a one to one corr
 """
 
 definition = """
-Jobs are work which is submitted to Spark. A job is created when you apply an action on an RDD.    See [here](https://intellipaat.com/community/18528/what-is-the-concept-of-application-job-stage-and-task-in-spark)
+A job is created when you apply an action on an RDD.    See [here](https://intellipaat.com/community/18528/what-is-the-concept-of-application-job-stage-and-task-in-spark) and [here](https://www.waitingforcode.com/apache-spark/jobs-stages-tasks/read).
 """
 
 add_to_glossary("job", short_definition, definition)
@@ -67,12 +67,53 @@ add_to_glossary("job", short_definition, definition)
 # WholeStageCodeGen
 
 short_definition = """
-An optimisation in Spark where several map operations are combined into a single step
+An optimisation in Spark where several map operations are combined into a single step.
 """
 
 definition = """
 WholeStageCodeGen is an optimisation in Spark where several map operations are combined into a single step of the code that Spark generates.  You can think of this as two lambda funnctions (steps) being combined into a single lambda function for execution.
 """
+
+add_to_glossary("wholestagecodegen", short_definition, definition)
+
+# Task
+
+short_definition = """
+Each stage in a job is divided into tasks based on the number of partitions in an RDD.  Every task in a stage does the same thing on a different segment of the data.
+"""
+
+definition = """
+Each stage is further divided into tasks based on the number of partitions in the RDD. So tasks are the smallest units of work for Spark.
+Every task inside a stage does the exact same thing, only on a different segment of the data. If a task is required to do something different, it's required that it be part of another stage.
+Tasks which are running the same code on different subsets (partitions) of the data can be collected into stages.
+One task is operated on by one core which is one partition.  See [here](https://stackoverflow.com/questions/42263270/what-is-the-concept-of-application-job-stage-and-task-in-spark)
+"""
+
+add_to_glossary("task", short_definition, definition)
+
+# Collect
+
+short_definition = """
+Return all the elements of the dataset as an array at the driver program.
+"""
+
+definition = """
+Return all the elements of the dataset as an array at the driver program. This is usually useful after a filter or other operation that returns a sufficiently small subset of the data. See [here](https://spark.apache.org/docs/latest/rdd-programming-guide.html).
+"""
+
+add_to_glossary("collect", short_definition, definition)
+
+# HashPartitioning
+
+short_definition = """
+A type of shuffle where data is allocated to partitions (executors) based on the modulus of the hash of a value.  The value chosen will ensure data that needs to be processed together is sent to the same partition.
+"""
+
+definition = """
+A type of shuffle where data is allocated to partitions (executors) based on the modulus of the hash of a value.  The value chosen will ensure data that needs to be processed together is sent to the same partition.  For instance, in the case of a join, the value which is hashed will be the join key.
+"""
+
+add_to_glossary("hashpartitioning", short_definition, definition)
 
 with open("glossary.json", "w") as f:
   json.dump(glossary, f, indent=4)
