@@ -71,11 +71,15 @@ add_to_glossary("job", short_definition, definition)
 # WholeStageCodeGen
 
 short_definition = """
-An optimisation in Spark where several map operations are combined into a single step.
+An optimisation in Spark where several operations are 'fused' (combined) into a single operation.
 """
 
 definition = """
-WholeStageCodeGen is an optimisation in Spark where several map operations are combined into a single step of the code that Spark generates.  You can think of this as two lambda funnctions (steps) being combined into a single lambda function for execution.
+WholeStageCodeGen is an optimisation in Spark where several map operations are combined into a single step of the code that Spark generates.  You can think of this as two or more lambda funnctions (steps) being combined into a single lambda function for execution.
+
+Spark SQL engine not only generates codes for the expressions in the physical operator tree but also generates code for the entire tree along with the expressions.  See [here](https://youtu.be/ywPuZ_WrHT0?t=654).
+
+The generated code elimited virtual function calls, thus enabling a lot more optimisation opportuities for the java compiling.
 """
 
 add_to_glossary("wholestagecodegen", short_definition, definition)
@@ -121,8 +125,8 @@ add_to_glossary("hashpartitioning", short_definition, definition)
 
 with open("glossary.json", "w") as f:
   json.dump(glossary, f, indent=4)
-  
-  
+
+
 # Action
 
 short_definition = """
@@ -130,12 +134,56 @@ Actions return final results of RDD computations, e.g. writing out data to the f
 """
 
 definition = """
+An action tell Spark to yield a result from a series of transformations.  There are three types of action:
+
+- View data in repl/console
+- Collect data to native objects in e.g. Python
+- Write out data
+
 Actions are RDD operations that produce non-RDD values. They materialize a value in a Spark program.  See [here](https://jaceklaskowski.gitbooks.io/mastering-apache-spark/spark-rdd-actions.html).
 
 See also [here](https://medium.com/@aristo_alex/how-apache-sparks-transformations-and-action-works-ceb0d03b00d0)
 """
 
 add_to_glossary("action", short_definition, definition)
+
+
+# RoundRobinPartitioning
+
+short_definition = """
+Distributes elements evenly across output partitions, starting from a random partition.  Row 1 goes to a random partition, row 2 goes to the next partition etc.
+"""
+
+definition = """
+Distributes elements evenly across output partitions, starting from a random partition.  Row 1 goes to a random partition, row 2 goes to the next partition etc.  See [here](https://github.com/apache/spark/blob/7f2c88d66392340212cd79cda6464ee20263dc43/sql/core/src/main/scala/org/apache/spark/sql/execution/exchange/ShuffleExchangeExec.scala#L238)
+"""
+add_to_glossary("roundrobinpartitioning", short_definition, definition)
+
+# HashAggregate
+
+short_definition = """
+Reduces data based on the modolus of the hash of zero or more keys.
+"""
+
+definition = """
+Reduces data based on the modolus of the hash of zero or more keys.
+"""
+
+add_to_glossary("hashaggregate", short_definition, definition)
+
+# Predicate
+
+
+short_definition  = "A predicate is a condition on a query that returns true or false, typically located in the WHERE clause. "
+
+definition = "A predicate is a condition on a query that returns true or false, typically located in the WHERE clause. Predicate pushdown is where Spark pushes these filters to the data read operation (from a database or files), reducing the number of entries retrieved from the data source and improving query performance."
+
+add_to_glossary("predicate", short_definition, definition)
+
+with open("glossary.json", "w") as f:
+  json.dump(glossary, f, indent=4)
+
+
 
 with open("glossary.json", "w") as f:
   json.dump(glossary, f, indent=4)
