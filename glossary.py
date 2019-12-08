@@ -173,13 +173,27 @@ add_to_glossary("hashaggregate", short_definition, definition)
 
 # Predicate
 
-
 short_definition  = "A predicate is a condition on a query that returns true or false, typically located in the WHERE clause. "
 
 definition = "A predicate is a condition on a query that returns true or false, typically located in the WHERE clause. Predicate pushdown is where Spark pushes these filters to the data read operation (from a database or files), reducing the number of entries retrieved from the data source and improving query performance."
 
 add_to_glossary("predicate", short_definition, definition)
 
+# RangePartitioning
+
+short_definition = "A partitioning strategy that assigns data to partitions based on an ordering.  Each partition will have a min and a max row, relative to the given ordering.  All rows that are in between this min and max will reside in this partition"
+
+definition = """Represents a partitioning where rows are split across partitions based on some total ordering of
+the expressions specified in `ordering`.  When data is partitioned in this manner the following two conditions are guaranteed to hold:
+ - All row where the expressions in `ordering` evaluate to the same values will be in the same
+   partition.
+ - Each partition will have a `min` and `max` row, relative to the given ordering.  All rows
+   that are in between `min` and `max` in this `ordering` will reside in this partition.
+
+See [here](https://github.com/apache/spark/blob/0a4c03f7d084f1d2aa48673b99f3b9496893ce8d/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/plans/physical/partitioning.scala#L243)
+"""
+
+add_to_glossary("rangepartitioning", short_definition, definition)
 with open("glossary.json", "w") as f:
   json.dump(glossary, f, indent=4)
 
